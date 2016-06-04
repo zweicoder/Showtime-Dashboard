@@ -78,5 +78,8 @@ ReactDOM.render(
 // Install ServiceWorker and AppCache in the end since
 // it's not most important operation and if main code fails,
 // we do not want it installed
+// require('bootstrap');
+// import bootstrap from '../node_modules/bootstrap/dist/css/bootstrap.min.css'
+import '!!style-loader!css-loader!./vendor/css/bootstrap.min.css';
 import { install } from 'offline-plugin/runtime';
 install();
