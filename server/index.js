@@ -28,15 +28,16 @@ app.listen(port, (err) => {
   }
 
   // Connect to ngrok in dev mode
-  if (isDev) {
-    ngrok.connect(port, (innerErr, url) => {
-      if (innerErr) {
-        return logger.error(innerErr);
-      }
+  // TODO fix ngrok weird issue
+  // if (isDev) {
+  //   ngrok.connect(port, (innerErr, url) => {
+  //     if (innerErr) {
+  //       return logger.error(innerErr);
+  //     }
 
-      logger.appStarted(port, url);
-    });
-  } else {
-    logger.appStarted(port);
-  }
+  //     logger.appStarted(port, url);
+  //   });
+  // } else {
+  //   logger.appStarted(port);
+  // }
 });

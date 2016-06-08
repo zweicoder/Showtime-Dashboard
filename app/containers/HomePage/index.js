@@ -11,60 +11,70 @@
 
 import React from 'react';
 import styles from './styles.css';
+import db from '../../api/db.js'
+import Dropdown from '../../components/Dropdown'
+import ApmtList from '../../components/ApmtList'
 
 /* eslint-disable react/prefer-stateless-function */
+const FILTERS_NONE = 'None';
+
 export default class HomePage extends React.Component {
+  state = { loading: true, filter: FILTERS_NONE };
+
+  componentDidMount() {
+    db.getData()
+      .then((data) =>
+        this.setState({ loading: false, data })
+      )
+  }
+
+  filters = [FILTERS_NONE].concat(['DDEN', 'DDET', 'DENO', 'DGSCD', 'DOMS', 'DOTD', 'DPDN', 'DPRD', 'DPRT']);
+
+
+  filterBySpecialty() {
+    if (this.state.filter === FILTERS_NONE) {
+      return this.state.data;
+    }
+
+    return this.state.data.map((day) => {
+        return {
+          ...day, predictions: day.predictions.filter((apmt)=> apmt.specialty === this.state.filter)
+        }
+      }
+    )
+  }
+
+  onFilterChanged = (input) => {
+    this.setState({ filter: input.value })
+  };
 
   render() {
-    function randChoice(arr) {
-      //At most choose half of the array randomly
-      const result = new Array(Math.floor(Math.random() * arr.length / 2)).fill();
-      return result.map(() => arr[Math.floor(Math.random() * arr.length)]);
+    if (this.state.loading) {
+      return (
+        <div className={styles.loading}>
+          <h1 className="display-2">Loading...</h1>
+        </div>
+      )
     }
 
-    function getStubId() {
-      const id = new Array(6).fill()
-        .map((val, idx) => Math.floor(Math.random() * 9))
-        .join('');
-      return `C~${id}`
+    if (!this.state.data) {
+      return (
+        <div className='jumbotron'>
+          <h1 className="display-2">No data!</h1>
+        </div>
+      )
     }
-
-    const days = ['Sun', 'Mon', 'Tue', 'Wed', 'Thurs', 'Fri', 'Sat'];
-    // TODO dates
-    const dates = new Array(7).fill().map((val, idx) => `${5 + idx}/6/2016`);
-    const stubApmts = new Array(15).fill().map(getStubId);
-    const stubData = dates.map((date)=> {
-      return {
-        date,
-        predictions: randChoice(stubApmts)
-      }
-    });
-
+    
+    let weekData = this.filterBySpecialty(this.state.data);
+    // TODO filter to immediate week
     return (
       <div className={`container-fluid ${styles.mainContainer}`}>
         <h1 className={`display-3 ${styles.title}`}>Singhealth No-Show Prediction</h1>
-        <div className="row">
-          {stubData.map((item, idx)=> {
-            return (
-              <div className={styles.columnContainer}>
-                <div className={styles.dayOfWeek}>
-                  {days[idx]} - {item.date}
-                </div>
-                <div className={styles.noShowStats}>
-                  <div className={styles.numNoShow}> {item.predictions.length} </div>
-                  <div className={styles.subtextNoShow}> <small>potential no-shows </small></div>
-                </div>
-                Predicted No-Shows:
-                <div className={styles.dayPredictions}>
-                  {item.predictions.map((prediction)=> <div>{prediction}</div>)}
-                </div>
-              </div>
-            )
-          })}
-
-        </div>
+        <Dropdown filters={this.filters} onFilterChanged={this.onFilterChanged}/>
+        <ApmtList weekData={weekData}/>
       </div>
 
     );
   }
 }
+

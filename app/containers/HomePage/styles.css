@@ -11,41 +11,10 @@
   margin-bottom: 2.5rem;
 }
 
-.col-1-of-7 {
-  width: calc(100%/7);
-  position: relative;
-  min-height: 1px;
-  padding-right: .9375rem;
-  padding-left: .9375rem;
-  float: left;
-}
-
-.dayOfWeek {
-  /*composes: col-1-of-7;*/
-  background-color: #563d7c;
-  color:white;
-  font-weight: bold;
-  padding: 20px;
-}
-
-.columnContainer {
-  composes: col-1-of-7;
-  text-align: center;
-}
-
-.noShowStats {
-  text-align: center;
-  padding-bottom: 50px;
-}
-.noShowStats > .numNoShow {
-  font-size: 75px;
-  font-weight: 700;
-}
-
-.noShowStats > .subtextNoShow {
-
-}
-
-.dayPredictions {
+.loading {
+  height:100vh;
+  display:flex;
+  align-items: center;
+  justify-content: center;
 
 }
