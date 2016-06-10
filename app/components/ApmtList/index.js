@@ -30,21 +30,18 @@ class ApmtList extends React.Component {
                   <small>potential no-shows</small>
                 </div>
               </div>
-              Predicted No-Shows:
-              <div className="row">
-                <div className="col-md-6">
-                  Case ID
+              <div className={styles.predictionTable}>
+                <div className={`${styles.tableHeading}`}>
+                  <h5>Case ID</h5>
+                  <h5> Probability</h5>
                 </div>
-                <div className="col-md-6">
-                  % of No Show
+                <div className={`${styles.predictionList}`}>
+                  {predictions.map(({ score, id, specialty })=>
+                    <div key={id} className={styles.predictionListRow}>
+                      <h6>{id}</h6>
+                      <h6>{`${percent(score)} %`}</h6>
+                    </div>)}
                 </div>
-
-              </div>
-              <div className={styles.dayPredictions}>
-                {predictions.map(({ score, id, specialty })=>
-                  <div key={id}>
-                    <span>{id} ({specialty}) : {`${percent(score)} %`}</span>
-                  </div>)}
               </div>
             </div>
           )

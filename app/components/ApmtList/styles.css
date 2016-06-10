@@ -8,8 +8,7 @@
 }
 
 .dayOfWeek {
-  /*composes: col-1-of-7;*/
-  background-color: #563d7c;
+  background-color: #6C7A89;
   color:white;
   font-weight: bold;
   padding: 20px;
@@ -23,7 +22,7 @@
 
 .noShowStats {
   text-align: center;
-  padding-bottom: 50px;
+  padding-bottom: 25px;
 }
 .noShowStats > .numNoShow {
   font-size: 75px;
@@ -34,9 +33,29 @@
 
 }
 
-.dayPredictions {
+.predictionList {
   font-size: 14px;
-  overflow: scroll;
-  max-height: 70%;
+  overflow-y: scroll;
+  max-height: 90%;
+}
 
+.predictionListRow{
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+}
+
+.tableHeading {
+  background-color: #BFBFBF;
+  color:white;
+  font-weight: bold;
+  display:flex;
+  justify-content: space-around;
+  flex-direction: row;
+  padding: 8px;
+}
+
+.predictionTable {
+  margin: auto;
+  height:72.5%
 }
