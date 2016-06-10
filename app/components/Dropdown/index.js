@@ -7,7 +7,7 @@ export default class Dropdown extends React.Component {
     const options = Object
       .entries(this.props.filters)
       // value is the apmt code, used for filtering
-      .map(({ value, label}) => {
+      .map(({ value, label }) => {
         return { label, value }
       });
 

@@ -7,6 +7,10 @@
 import React from 'react';
 import styles from './styles.css';
 
+function percent(score) {
+  return (parseFloat(score) * 100).toPrecision(3)
+}
+
 class ApmtList extends React.Component {
   render() {
     const days = ['Sun', 'Mon', 'Tue', 'Wed', 'Thurs', 'Fri', 'Sat'];
@@ -27,10 +31,19 @@ class ApmtList extends React.Component {
                 </div>
               </div>
               Predicted No-Shows:
+              <div className="row">
+                <div className="col-md-6">
+                  Case ID
+                </div>
+                <div className="col-md-6">
+                  % of No Show
+                </div>
+
+              </div>
               <div className={styles.dayPredictions}>
                 {predictions.map(({ score, id, specialty })=>
                   <div key={id}>
-                    <span>{id} ({specialty}) : {score}</span>
+                    <span>{id} ({specialty}) : {`${percent(score)} %`}</span>
                   </div>)}
               </div>
             </div>
