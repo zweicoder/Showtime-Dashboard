@@ -28,7 +28,17 @@ export default class HomePage extends React.Component {
       )
   }
 
-  filters = [FILTERS_NONE].concat(['DDEN', 'DDET', 'DENO', 'DGSCD', 'DOMS', 'DOTD', 'DPDN', 'DPRD', 'DPRT']);
+  filters = {
+    'DDEN': 'GENERAL DENTISTRY',
+    'DDET': 'DENTAL THERAPY',
+    'DENO': 'ENDODONTICS',
+    'DGSCD': 'GERIATRIC SPECIAL CARE DENTISTRY',
+    'DOMS': 'ORAL & MAXILLOFACIAL SURGERY',
+    'DOTD': 'ORTHODONTICS',
+    'DPDN': 'PAEDIATRIC DENTAL',
+    'DPRD': 'PERIODONTICS',
+    'DPRT': 'PROSTHODONTICS'
+  };
 
 
   filterBySpecialty() {
@@ -64,12 +74,12 @@ export default class HomePage extends React.Component {
         </div>
       )
     }
-    
+
     let weekData = this.filterBySpecialty(this.state.data);
     // TODO filter to immediate week
     return (
       <div className={`container-fluid ${styles.mainContainer}`}>
-        <h1 className={`display-3 ${styles.title}`}>Singhealth No-Show Prediction</h1>
+        <h1 className={`display-3 ${styles.title}`}>NDCS No-Show Predictor</h1>
         <Dropdown filters={this.filters} onFilterChanged={this.onFilterChanged}/>
         <ApmtList weekData={weekData}/>
       </div>

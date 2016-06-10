@@ -4,9 +4,12 @@ import { SimpleSelect } from 'react-selectize';
 export default class Dropdown extends React.Component {
 
   render() {
-    const options = this.props.filters.map(function (filter) {
-      return { label: filter, value: filter }
-    });
+    const options = Object
+      .entries(this.props.filters)
+      // value is the apmt code, used for filtering
+      .map(({ value, label}) => {
+        return { label, value }
+      });
 
     return (
       <SimpleSelect
