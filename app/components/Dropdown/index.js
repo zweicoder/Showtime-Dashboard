@@ -10,13 +10,14 @@ export default class Dropdown extends React.Component {
       .map(([ value, label ]) => {
         return { label, value }
       });
-    console.log(options);
 
     return (
       <SimpleSelect
         placeholder="Filter by Specialty"
         onValueChange={this.props.onFilterChanged}
         options={options}
+        defaultValue={options[0]}
+        style={{fontSize: '0.8em', width: '330px'}}
       >
       </SimpleSelect>
     );

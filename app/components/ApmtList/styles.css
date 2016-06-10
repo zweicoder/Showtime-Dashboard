@@ -36,7 +36,8 @@
 .predictionList {
   font-size: 14px;
   overflow-y: scroll;
-  max-height: 90%;
+  height: 90%;
+  /*max-height: 90%;*/
 }
 
 .predictionListRow{
@@ -53,6 +54,7 @@
   justify-content: space-around;
   flex-direction: row;
   padding: 8px;
+  margin-bottom: 8px;
 }
 
 .predictionTable {

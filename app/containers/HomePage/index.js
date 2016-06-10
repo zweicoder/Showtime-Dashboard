@@ -16,10 +16,9 @@ import Dropdown from '../../components/Dropdown'
 import ApmtList from '../../components/ApmtList'
 
 /* eslint-disable react/prefer-stateless-function */
-const FILTERS_NONE = 'None';
 
 export default class HomePage extends React.Component {
-  state = { loading: true, filter: FILTERS_NONE };
+  state = { loading: true, filter: 'DDEN' };
 
   componentDidMount() {
     db.getData()
@@ -42,10 +41,6 @@ export default class HomePage extends React.Component {
 
 
   filterBySpecialty() {
-    if (this.state.filter === FILTERS_NONE) {
-      return this.state.data;
-    }
-
     return this.state.data.map((day) => {
         return {
           ...day, predictions: day.predictions.filter((apmt)=> apmt.specialty === this.state.filter)
