@@ -14,18 +14,20 @@ import styles from './styles.css';
 import db from '../../api/db.js'
 import Dropdown from '../../components/Dropdown'
 import ApmtList from '../../components/ApmtList'
+import Dropzone from 'react-dropzone'
+import 'whatwg-fetch'
 
 /* eslint-disable react/prefer-stateless-function */
 
 export default class HomePage extends React.Component {
-  state = { loading: true, filter: 'DDEN' };
+  state = { loading: false, filter: 'DDEN', url: false, empty:true};
 
-  componentDidMount() {
-    db.getData()
-      .then((data) =>
-        this.setState({ loading: false, data })
-      )
-  }
+  // componentDidMount() {
+  //   db.getData()
+  //     .then((data) =>
+  //       this.setState({ loading: false, data })
+  //     )
+  // }
 
   filters = {
     'DDEN': 'GENERAL DENTISTRY',
@@ -53,7 +55,38 @@ export default class HomePage extends React.Component {
     this.setState({ filter: input.value })
   };
 
+  onDrop= (files) =>{
+    console.log('Uploading files: ', files);
+    var data = new FormData()
+    data.append('file', files[0])
+    const host = 'http://localhost:5000'
+    this.setState({loading: true})
+    fetch(`${host}/predict`, {
+      method: 'POST',
+      body: data
+    })
+    .then((res)=>{
+      console.log(res)
+      if (!res.ok){
+        alert('Something went wrong while uploading file to server!')
+        this.setState({loading:false})
+        return
+      }
+      return res.json()
+    })
+    .then((json)=>{
+      console.log(json)
+      const {url, data} = json;
+      this.setState({url, data, loading:false})
+    })
+    .catch((err)=>{
+      console.error(err)
+      this.setState({loading:false})
+    })
+  }
+
   render() {
+    const activeStyle = {'border': '2px dashed black', 'borderRadius': '4px', opacity:'0.3', 'zIndex':'1'}
     if (this.state.loading) {
       return (
         <div className={styles.loading}>
@@ -64,20 +97,25 @@ export default class HomePage extends React.Component {
 
     if (!this.state.data) {
       return (
-        <div className='jumbotron'>
-          <h1 className="display-2">No data!</h1>
-        </div>
+        <Dropzone onDrop={this.onDrop} style={{}} disableClick={true} activeStyle={activeStyle}>
+          <div className={`container-fluid ${styles.mainContainer}`}>
+            <h1 className={`display-3 ${styles.title}`}>NDCS No-Show Predictor</h1>
+            <div className='jumbotron'><h2>Drop a .txt or .csv file here to begin!</h2></div>
+          </div>
+        </Dropzone>
       )
     }
 
     let weekData = this.filterBySpecialty(this.state.data);
     // TODO filter to immediate week
     return (
-      <div className={`container-fluid ${styles.mainContainer}`}>
-        <h1 className={`display-3 ${styles.title}`}>NDCS No-Show Predictor</h1>
-        <Dropdown filters={this.filters} onFilterChanged={this.onFilterChanged}/>
-        <ApmtList weekData={weekData}/>
-      </div>
+      <Dropzone onDrop={this.onDrop} style={{}} disableClick={true} activeStyle={activeStyle}>
+        <div className={`container-fluid ${styles.mainContainer}`}>
+          <h1 className={`display-3 ${styles.title}`}>NDCS No-Show Predictor</h1>
+          <Dropdown filters={this.filters} onFilterChanged={this.onFilterChanged}/>
+          <ApmtList weekData={weekData}/>
+        </div>
+      </Dropzone>
 
     );
   }
