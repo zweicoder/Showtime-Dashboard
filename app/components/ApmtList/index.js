@@ -13,7 +13,7 @@ function percent(score) {
 
 class ApmtList extends React.Component {
   render() {
-    const days = ['Sun', 'Mon', 'Tue', 'Wed', 'Thurs', 'Fri', 'Sat'];
+    const days = ['Mon', 'Tue', 'Wed', 'Thurs', 'Fri', 'Sat','Sun'];
     return (
       <div className="row">
         {this.props.weekData.map((dayData, idx)=> {
