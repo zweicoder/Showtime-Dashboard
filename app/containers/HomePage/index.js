@@ -11,7 +11,6 @@
 
 import React from 'react';
 import styles from './styles.css';
-import db from '../../api/db.js'
 import Dropdown from '../../components/Dropdown'
 import ApmtList from '../../components/ApmtList'
 import Dropzone from 'react-dropzone'
@@ -21,13 +20,6 @@ import 'whatwg-fetch'
 
 export default class HomePage extends React.Component {
   state = { loading: false, filter: 'DDEN', url: false, empty:true};
-
-  // componentDidMount() {
-  //   db.getData()
-  //     .then((data) =>
-  //       this.setState({ loading: false, data })
-  //     )
-  // }
 
   filters = {
     'DDEN': 'GENERAL DENTISTRY',
@@ -66,7 +58,6 @@ export default class HomePage extends React.Component {
       body: data
     })
     .then((res)=>{
-      console.log(res)
       if (!res.ok){
         alert('Something went wrong while uploading file to server!')
         this.setState({loading:false})
@@ -111,8 +102,12 @@ export default class HomePage extends React.Component {
     return (
       <Dropzone onDrop={this.onDrop} style={{}} disableClick={true} activeStyle={activeStyle}>
         <div className={`container-fluid ${styles.mainContainer}`}>
-          <h1 className={`display-3 ${styles.title}`}>NDCS No-Show Predictor</h1>
-          <Dropdown filters={this.filters} onFilterChanged={this.onFilterChanged}/>
+          <div className={styles.heading}>
+            <h2 className={`display-3 ${styles.title}`}>NDCS No-Show Predictor </h2>
+            <Dropdown filters={this.filters} onFilterChanged={this.onFilterChanged}/> 
+            <a href={`http://localhost:5000${this.state.url}`} download='predictions.csv' style={{padding: '20px'}}>Download</a>
+          </div>
+
           <ApmtList weekData={weekData}/>
         </div>
       </Dropzone>
